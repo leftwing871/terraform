@@ -1,4 +1,9 @@
+instance_name = "terraform101ec2"
 
-instance_name = "x1"
+vpc_name = "terraform101"
 
-key = "961770019511_oregon"
+product_name = "demo"
+
+ami = "ami-058165de3b7202099"
+
+instance_type = "t3.small"
