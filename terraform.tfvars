@@ -1,2 +1,3 @@
+instance_name = "terraform101ec2"
 
-instance_name = "x1"
+vpc_name = "terraform101"

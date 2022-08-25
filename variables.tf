@@ -5,8 +5,12 @@ variable "instance_name" {
 }
 
 
-variable "kkk" {
-  description = "Value of the Name tag for the EC2 instance"
+variable "vpc_name" {
+  description = "Value of the Name tag for the VPC"
   type        = string
-  default     = "ExampleAppServerInstance"
+}
+
+variable "tags" {
+  type        = string
+  default     = "value"
 }
