@@ -3,7 +3,7 @@ resource "aws_vpc" "this" {
   cidr_block = "100.0.0.0/16"
 
   tags = {
-    Name = "${var.vpc_name}-vpc"
+    Name = "${var.tags}-vpc"
   }
 }
 
@@ -15,7 +15,7 @@ resource "aws_subnet" "public_a" {
   cidr_block        = "100.0.0.0/24"
 
   tags = {
-    Name = "${var.vpc_name}-public-2a"
+    Name = "${var.tags}-public-2a"
   }
 }
 
@@ -27,7 +27,7 @@ resource "aws_subnet" "public_c" {
   cidr_block        = "100.0.1.0/24"
 
   tags = {
-    Name = "${var.vpc_name}-public-2c"
+    Name = "${var.tags}-public-2c"
   }
 }
 
@@ -39,7 +39,7 @@ resource "aws_subnet" "private_2a" {
   cidr_block        = "100.0.10.0/24"
 
   tags = {
-    Name = "${var.vpc_name}-private-2a"
+    Name = "${var.tags}-private-2a"
   }
 }
 
@@ -51,7 +51,7 @@ resource "aws_subnet" "private_2c" {
   cidr_block        = "100.0.11.0/24"
 
   tags = {
-    Name = "${var.vpc_name}-private-2c"
+    Name = "${var.tags}-private-2c"
   }
 }
 
@@ -60,7 +60,7 @@ resource "aws_internet_gateway" "igw" {
   vpc_id = aws_vpc.this.id
 
   tags = {
-    Name = "${var.vpc_name}-igw"
+    Name = "${var.tags}-igw"
   }
 }
 
@@ -70,7 +70,7 @@ resource "aws_nat_gateway" "nat" {
   allocation_id = aws_eip.nat.id
 
   tags = {
-    Name = "${var.vpc_name}-nat"
+    Name = "${var.tags}-nat"
   }
 }
 
@@ -79,7 +79,7 @@ resource "aws_eip" "nat" {
   vpc = true
 
   tags = {
-    Name = "${var.vpc_name}-eip"
+    Name = "${var.tags}-eip"
   }
 }
 
@@ -88,7 +88,7 @@ resource "aws_route_table" "public" {
   vpc_id = aws_vpc.this.id
 
   tags = {
-    Name = "${var.vpc_name}-public-rt"
+    Name = "${var.tags}-public-rt"
   }
 }
 
@@ -97,7 +97,7 @@ resource "aws_route_table" "private" {
   vpc_id = aws_vpc.this.id
 
   tags = {
-    Name = "${var.vpc_name}-private-rt"
+    Name = "${var.tags}-private-rt"
   }
 }
 

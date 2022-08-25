@@ -1,7 +1,7 @@
 # EC2 Security Group
 resource "aws_security_group" "ec2" {
-  name     = "${var.product_name}-sg"
-  vpc_id = aws_vpc.this.id
+  name     = "${var.tags}-sg"
+  vpc_id = var.vpc_id
 
   ingress {
     description      = "ingress from Load Balancer"
@@ -20,7 +20,7 @@ resource "aws_security_group" "ec2" {
   }
 
   tags = {
-    Name = "${var.product_name}-sg"
+    Name = "${var.tags}-sg"
   }
 }
 
@@ -29,8 +29,8 @@ resource "aws_instance" "this" {
   ami           = var.ami
   instance_type = var.instance_type
   vpc_security_group_ids = [aws_security_group.ec2.id]
-  subnet_id              = aws_subnet.private_2a.id
-#   iam_instance_profile = var.iam_instance_profile
+  subnet_id              = var.instance_subnet_id
+  iam_instance_profile = var.iam_instance_profile
   user_data = <<EOF
 #! /bin/bash
 sudo apt-get update
@@ -41,20 +41,20 @@ echo "<h1>Welcome to Terraform Workshop &#128075;</h1>" | sudo tee /var/www/html
 EOF
 
   tags = {
-    Name = "${var.product_name}-ec2"
+    Name = "${var.tags}-ec2"
   }
 }
 
 # Load Balancer
 resource "aws_lb" "alb" {
-  name                       = "${var.product_name}-alb"
+  name                       = "${var.tags}-alb"
   internal                   = false
   load_balancer_type         = "application"
   security_groups            = [aws_security_group.alb.id]
-  subnets = [aws_subnet.public_a.id, aws_subnet.public_c.id]
+  subnets = var.pulbic_subnets
 
   tags = {
-    Name = "${var.product_name}-alb"
+    Name = "${var.tags}-alb"
   }
 }
 
@@ -72,8 +72,8 @@ resource "aws_lb_listener" "alb" {
 
 # Load Balancer Security Group
 resource "aws_security_group" "alb" {
-  name     = "${var.product_name}-alb-sg"
-  vpc_id = aws_vpc.this.id
+  name     = "${var.tags}-alb-sg"
+  vpc_id = var.vpc_id
 
   ingress {
     description      = "ingress from Local IP"
@@ -92,19 +92,19 @@ resource "aws_security_group" "alb" {
   }
 
   tags = {
-    Name = "${var.product_name}-alb-sg"
+    Name = "${var.tags}-alb-sg"
   }
 }
 
 # Load Balancer Target Group
 resource "aws_lb_target_group" "alb" {
-  name                 = "${var.product_name}-albtg"
+  name                 = "${var.tags}-albtg"
   port                 = 80
   protocol             = "HTTP"
-  vpc_id               = aws_vpc.this.id
+  vpc_id               = var.vpc_id
 
   tags = {
-    Name = "${var.product_name}-albtg"
+    Name = "${var.tags}-albtg"
   }
 }
 
