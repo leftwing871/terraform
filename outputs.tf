@@ -20,3 +20,10 @@ output "lb_dns" {
 output "iam_name" {
   value = module.iam.iam_name
 }
+
+
+
+# RDS Module
+output "endpoints" {
+  value = [for endpoint in module.rds_fleet: endpoint]
+}
