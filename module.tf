@@ -112,7 +112,8 @@ module "ec2_fleet" {
 
 module "rds_fleet" {
   source = "./05_rds"
-  for_each = var.rds-logdb-list
+  #for_each = var.rds-logdb-list
+  for_each = { for key, value in var.rds-logdb-list : key => value if (value.switch == 1 && value.name != "rds-sm-tw-logdb-005" ) }
 
   # each.value.name
   tags = each.key
